@@ -84,12 +84,10 @@ export default class IndexPage extends Vue {
 	async asyncData ({ query }: { query: any }) {
 		let lectureData: any = null
 		let lectureData2: any = null
-		let api: any = null
+		let api: any = new Api();
 		const notiarclNo = query.notiarcl_no
-		if (notiarclNo == null || notiarclNo == '') {
-			
-		} else {			
-			api = new Api();
+		
+		if (notiarclNo != null && notiarclNo != '') {
 			api.setApiPathUri('/qr/bbs/board/article/em/lec/list')
 			api.setQueryString('notiarcl_no='+ notiarclNo)
 
@@ -98,8 +96,7 @@ export default class IndexPage extends Vue {
 					return res.datas.list001
 				}
 			})
-
-			api = new Api();
+			
 			api.setApiPathUri('/qr/bbs/board/article/em/lec/list')
 			api.setQueryString('notiarcl_no='+ notiarclNo)
 
@@ -108,11 +105,11 @@ export default class IndexPage extends Vue {
 					return res.datas.list001
 				}
 			})
+		}
 
-			return {
-				lectureData: lectureData,
-				lectureData2: lectureData2
-			}
+		return {
+			lectureData: lectureData,
+			lectureData2: lectureData2
 		}
 	}
 }
