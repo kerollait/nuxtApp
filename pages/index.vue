@@ -20,9 +20,8 @@
 		  GitHub
 		</a>
 	  </div>
-	</div>
 
-	<div>
+	  <div>
 		<table border="1">
 		<tr>
 			<th>No</th>
@@ -66,6 +65,7 @@
 			</tr>
 		</template>
 		</table>
+	</div>
 	</div>
   </div>
 </template>

@@ -17,14 +17,13 @@ export default class Api {
         this.queryString = query
     }
 
-    execute(): any {
+    async execute(): Promise<any> {
         let apiFullPath = this.apiDomain + this.apiPathUri
         if (this.queryString != '') {
             apiFullPath += '?' + this.queryString
         }
 
-        return axios.get(apiFullPath)
-        .then((res) => {
+        return axios.get(apiFullPath).then((res) => {
             return res.data
         })
     }
