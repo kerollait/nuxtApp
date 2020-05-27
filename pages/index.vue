@@ -1,72 +1,50 @@
 <template>
-  <div class="container">
-	<div>
-	  <logo />
-	  <h1 class="title">
-		nuxtApp
-	  </h1>
-	  <h2 class="subtitle">
-		My exceptional Nuxt.js project
-	  </h2>
-	  <div class="links">
-		<a href="https://nuxtjs.org/" target="_blank" class="button--green">
-		  Documentation
-		</a>
-		<a
-		  href="https://github.com/nuxt/nuxt.js"
-		  target="_blank"
-		  class="button--grey"
-		>
-		  GitHub
-		</a>
-	  </div>
+  	<div class="container">
+		<div v-if="params.notiarclNo == null || params.notiarclNo == ''">	  
+	  		<logo />
+		  	<h1 class="title">
+				nuxtApp
+		  	</h1>
+		  	<h2 class="subtitle">
+				My exceptional Nuxt.js project
+		  	</h2>
+		  	<div class="links">
+				<a href="?notiarcl_no=5892789" class="button--green">API 호출 테스트</a>
+				<a href="https://github.com/nuxt/nuxt.js" target="_blank" class="button--grey">GitHub</a>
+		  	</div>
+		</div>
 
-	  <div>
-		<table border="1">
-		<tr>
-			<th>No</th>
-			<th>강좌아이디</th>
-			<th>강좌명</th>
-		</tr>		
-		<template v-if="lectureData != null">
-			<tr v-for="(item, index) in lectureData" v-bind:key="index">
-				<td>{{ index }}</td>
-				<td>{{ item.lct_id }}</td>
-				<td>{{ item.lct_nm }}</td>
-			</tr>
-		</template>
+		<div v-else>
+			<div v-if="viewDatas.lectureList1 != null">
+				<table border="1">
+				<tr>
+					<th>No</th>
+					<th>강좌아이디</th>
+					<th>강좌명</th>
+				</tr>
+				<tr v-for="(item, index) in viewDatas.lectureList1" v-bind:key="index">
+					<td>{{ index }}</td>
+					<td>{{ item.lct_id }}</td>
+					<td>{{ item.lct_nm }}</td>
+				</tr>		
+				</table>
+			</div>
 
-		<template v-else>
-			<tr>
-				<td colspan="3" align="center">등록된 강좌가 없습니다.</td>
-			</tr>
-		</template>
-		</table>
-
-		<br>
-
-		<table border="1">
-		<tr>
-			<th>No</th>
-			<th>강좌아이디</th>
-			<th>강좌명</th>
-		</tr>		
-		<template v-if="lectureData2 != null">
-			<tr v-for="(item, index) in lectureData2" v-bind:key="index">
-				<td>{{ index }}</td>
-				<td>{{ item.lct_id }}</td>
-				<td>{{ item.lct_nm }}</td>
-			</tr>
-		</template>
-
-		<template v-else>
-			<tr>
-				<td colspan="3" align="center">등록된 강좌가 없습니다.</td>
-			</tr>
-		</template>
-		</table>
-	</div>
-	</div>
+			<div v-if="viewDatas.lectureList2 != null">
+				<table border="1">
+				<tr>
+					<th>No</th>
+					<th>강좌아이디</th>
+					<th>강좌명</th>
+				</tr>
+				<tr v-for="(item, index) in viewDatas.lectureList2" v-bind:key="index">
+					<td>{{ index }}</td>
+					<td>{{ item.lct_id }}</td>
+					<td>{{ item.lct_nm }}</td>
+				</tr>		
+				</table>
+			</div>
+		</div>
   </div>
 </template>
 
@@ -81,35 +59,32 @@ import Api from '@/libs/api'
   }
 })
 export default class IndexPage extends Vue {
-	async asyncData ({ query }: { query: any }) {
-		let lectureData: any = null
-		let lectureData2: any = null
-		let api: any = new Api();
+	async asyncData ({ query }: { query:any }) {
+		let list1 = null
+		let list2 = null
+		let api = new Api();
 		const notiarclNo = query.notiarcl_no
-		
+
 		if (notiarclNo != null && notiarclNo != '') {
+			api.setMethod('GET')
 			api.setApiPathUri('/qr/bbs/board/article/em/lec/list')
-			api.setQueryString('notiarcl_no='+ notiarclNo)
-
-			lectureData = await api.execute().then((res: any) => {				
-				if (res != null) {
-					return res.datas.list001
-				}
+			api.setParams({
+				notiarcl_no: notiarclNo
 			})
-			
-			api.setApiPathUri('/qr/bbs/board/article/em/lec/list')
-			api.setQueryString('notiarcl_no='+ notiarclNo)
-
-			lectureData2 = await api.execute().then((res: any) => {				
-				if (res != null) {
-					return res.datas.list001
-				}
-			})
+			await api.execute()			
+			if (api.isSuccess) {				
+				list1 = api.getDataList('list001')
+			}
 		}
 
 		return {
-			lectureData: lectureData,
-			lectureData2: lectureData2
+			params: {
+				notiarclNo: notiarclNo
+			},
+			viewDatas: {
+				lectureList1: list1,
+				lectureList2: list2
+			}			
 		}
 	}
 }
