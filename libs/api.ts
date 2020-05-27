@@ -66,14 +66,29 @@ export default class Api {
 	}
 
 	getParamValue(key: string): any {
+		let result: any = null
 		if (this.responseParams !== null) {
-			return eval('this.responseParams.'+ key)
+			try {
+				result = eval('this.responseParams.'+ key)
+			} catch(e) {
+
+			}			
 		}
+
+		return result
 	}
 
 	getDataList(list: string): any {		
+		let result: any = null
 		if (this.responseDatas !== null) {
-			return eval('this.responseDatas.'+ list)
+			try {
+				result = eval('this.responseDatas.'+ list)
+			} catch(e) {
+
+			}
+			
 		}
+
+		return result
 	}
 }

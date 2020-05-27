@@ -10,7 +10,7 @@
 		  	</h2>
 		  	<div class="links">
 				<a href="?notiarcl_no=5892789" class="button--green">API 호출 테스트</a>
-				<a href="https://github.com/nuxt/nuxt.js" target="_blank" class="button--grey">GitHub</a>
+				<a href="https://github.com/kerollait/nuxtApp" target="_blank" class="button--grey">GitHub</a>
 		  	</div>
 		</div>
 
