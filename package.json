@@ -14,10 +14,10 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
-    "nuxt": "^2.0.0"
+    "nuxt": "^2.12.2"
   },
   "devDependencies": {
-    "@nuxt/typescript-build": "^1.0.0",
+    "@nuxt/typescript-build": "^2.1.0",
     "@nuxtjs/eslint-config-typescript": "^1.0.0",
     "@nuxtjs/eslint-module": "^1.0.0",
     "@vue/test-utils": "^1.0.0-beta.27",
